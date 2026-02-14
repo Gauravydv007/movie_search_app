@@ -4,7 +4,6 @@ import 'package:movie_search_app_001/injection/injection.dart';
 import 'package:movie_search_app_001/presentation/bloc/search/search_movies_bloc.dart';
 import 'package:movie_search_app_001/presentation/pages/search_results_page.dart';
 
-/// Screen 1: Initial search screen with title, search bar, and placeholder.
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 

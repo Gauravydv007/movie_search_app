@@ -7,7 +7,6 @@ import 'package:movie_search_app_001/presentation/widgets/error_message.dart';
 import 'package:movie_search_app_001/presentation/widgets/loading_indicator.dart';
 import 'package:movie_search_app_001/presentation/widgets/movie_grid_card.dart';
 
-/// Screen 2: Search results with back, search bar, count, and grid of movie cards.
 class SearchResultsPage extends StatefulWidget {
   const SearchResultsPage({
     super.key,

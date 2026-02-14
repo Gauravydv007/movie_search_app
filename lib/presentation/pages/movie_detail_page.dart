@@ -32,14 +32,9 @@ class _MovieDetailView extends StatelessWidget {
 
   final String imdbID;
 
-  static const _cardRadius = 24.0;
-  static const _headerHeight = 280.0;
-  static const _navButtonSize = 44.0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       body: BlocBuilder<MovieDetailBloc, MovieDetailState>(
         builder: (context, state) {
           if (state is MovieDetailLoading) {
@@ -75,9 +70,9 @@ class _MovieDetailView extends StatelessWidget {
     if (isFav) {
       context.read<FavouritesBloc>().add(FavouritesAddRequested(movie));
     } else {
-      context
-          .read<FavouritesBloc>()
-          .add(FavouritesRemoveRequested(state.movie.imdbID));
+      context.read<FavouritesBloc>().add(
+        FavouritesRemoveRequested(state.movie.imdbID),
+      );
     }
   }
 }
@@ -96,96 +91,101 @@ class _DetailContent extends StatelessWidget {
   final VoidCallback onFavouriteTap;
 
   static const _cardRadius = 24.0;
-  static const _headerHeight = 280.0;
   static const _navButtonSize = 44.0;
   static const _infoBlue = Color(0xFF1976D2);
-  static const _pillBlue = Color(0xFFE3F2FD);
-  static const _pillTextBlue = Color(0xFF1565C0);
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: Stack(
-            children: [
-              _HeaderImage(poster: movie.poster, height: _headerHeight),
-              Positioned(
-                top: MediaQuery.of(context).padding.top + 8,
-                left: 16,
-                child: _CircleButton(
-                  icon: Icons.arrow_back,
-                  onPressed: onBack,
-                ),
-              ),
-              Positioned(
-                top: MediaQuery.of(context).padding.top + 8,
-                right: 16,
-                child: _CircleButton(
-                  icon: isFavourite ? Icons.favorite : Icons.favorite_border,
-                  onPressed: onFavouriteTap,
-                ),
-              ),
-            ],
+    final screenHeight = MediaQuery.of(context).size.height;
+    final topPadding = MediaQuery.of(context).padding.top;
+
+    return Stack(
+      children: [
+        // Full background image
+        _BackgroundPoster(poster: movie.poster),
+
+        // Navigation buttons
+        Positioned(
+          top: topPadding + 8,
+          left: 16,
+          child: _CircleButton(icon: Icons.arrow_back, onPressed: onBack),
+        ),
+        Positioned(
+          top: topPadding + 8,
+          right: 16,
+          child: _CircleButton(
+            icon: isFavourite ? Icons.favorite : Icons.favorite_border,
+            onPressed: onFavouriteTap,
           ),
         ),
-        SliverToBoxAdapter(
-          child: Transform.translate(
-            offset: const Offset(0, -_cardRadius),
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(_cardRadius),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    blurRadius: 12,
-                    offset: const Offset(0, -4),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      movie.title,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
+
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: screenHeight * 0.65,
+            width: double.infinity,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Container(
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(_cardRadius),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 20,
+                      offset: const Offset(0, 4),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      _subtitle(movie),
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: _infoBlue,
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
-                    const SizedBox(height: 14),
-                    _GenrePills(genre: movie.genre),
-                    const SizedBox(height: 20),
-                    _ScoresRow(movie: movie),
-                    const SizedBox(height: 22),
-                    _SectionLabel('PLOT'),
-                    const SizedBox(height: 6),
-                    Text(
-                      movie.plot != 'N/A' ? movie.plot : 'No plot is available.',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.black87,
-                            height: 1.45,
-                          ),
-                    ),
-                    const SizedBox(height: 22),
-                    _SectionLabel('CAST & CREW'),
-                    const SizedBox(height: 12),
-                    _CastCrewList(movie: movie),
                   ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie.title,
+                        style: Theme.of(context).textTheme.headlineSmall
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        _subtitle(movie),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: _infoBlue,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      _GenrePills(genre: movie.genre),
+                      const SizedBox(height: 16),
+                      Divider(color: Colors.grey.shade300, thickness: 1),
+                      const SizedBox(height: 6),
+                      _ScoresRow(movie: movie),
+                      const SizedBox(height: 6),
+                      Divider(color: Colors.grey.shade300, thickness: 1),
+                      const SizedBox(height: 18),
+                      _SectionLabel('PLOT'),
+                      const SizedBox(height: 6),
+                      Text(
+                        movie.plot != 'N/A'
+                            ? movie.plot
+                            : 'No plot is available.',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Colors.black87,
+                          height: 1.45,
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      _SectionLabel('CAST & CREW'),
+                      const SizedBox(height: 12),
+                      _CastCrewList(movie: movie),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -204,18 +204,18 @@ class _DetailContent extends StatelessWidget {
   }
 }
 
-class _HeaderImage extends StatelessWidget {
-  const _HeaderImage({required this.poster, required this.height});
+class _BackgroundPoster extends StatelessWidget {
+  const _BackgroundPoster({required this.poster});
 
   final String poster;
-  final double height;
 
   @override
   Widget build(BuildContext context) {
     final hasImage = poster.isNotEmpty && poster != 'N/A';
+
     return SizedBox(
-      height: height,
       width: double.infinity,
+      height: double.infinity,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -223,19 +223,24 @@ class _HeaderImage extends StatelessWidget {
             Image.network(
               poster,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => _Placeholder(height: height),
+              errorBuilder: (_, __, ___) => _Placeholder(),
             )
           else
-            _Placeholder(height: height),
+            _Placeholder(),
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.transparent,
                   Colors.black.withOpacity(0.3),
+                  Colors.black.withOpacity(0.5),
+                  Colors.white.withOpacity(0.6),
+                  Colors.white.withOpacity(0.8),
+                  Colors.white,
+                  Colors.white,
                 ],
+                stops: const [0.0, 0.3, 0.4, 0.7, 0.9, 1.0],
               ),
             ),
           ),
@@ -246,14 +251,11 @@ class _HeaderImage extends StatelessWidget {
 }
 
 class _Placeholder extends StatelessWidget {
-  const _Placeholder({required this.height});
-
-  final double height;
+  const _Placeholder();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
       color: Colors.grey.shade400,
       child: Icon(Icons.movie_outlined, size: 80, color: Colors.grey.shade600),
     );
@@ -269,16 +271,16 @@ class _CircleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white.withOpacity(0.9),
-      shape: const CircleBorder(),
+      color: Colors.white.withOpacity(0.3),
+      shape: CircleBorder(side: BorderSide(color: Colors.white54, width: 1)),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onPressed,
         customBorder: const CircleBorder(),
         child: SizedBox(
-          width: _DetailContent._navButtonSize,
-          height: _DetailContent._navButtonSize,
-          child: Icon(icon, color: Colors.black87, size: 24),
+          width: 40,
+          height: 40,
+          child: Icon(icon, color: Colors.white, size: 24),
         ),
       ),
     );
@@ -296,7 +298,10 @@ class _GenrePills extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (genre == 'N/A' || genre.isEmpty) return const SizedBox.shrink();
-    final list = genre.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty);
+    final list = genre
+        .split(',')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty);
     if (list.isEmpty) return const SizedBox.shrink();
     return Wrap(
       spacing: 8,
@@ -334,14 +339,59 @@ class _ScoresRow extends StatelessWidget {
     final imdb = _parseImdb(movie);
     final rt = _parseRottenTomatoes(movie);
     final meta = _parseMetacritic(movie);
+
+    final scores = [
+      if (imdb != null)
+        _ScoreData(
+          icon: Icons.star,
+          iconColor: const Color(0xFFFFC107),
+          score: imdb.score,
+          suffix: imdb.suffix,
+          label: 'IMDB',
+        ),
+      if (rt != null)
+        _ScoreData(
+          icon: Icons.local_movies,
+          iconColor: const Color(0xFFE53935),
+          score: rt.score,
+          suffix: rt.suffix,
+          label: 'ROTTEN TOMATOES',
+        ),
+      if (meta != null)
+        _ScoreData(
+          icon: Icons.trending_up,
+          iconColor: const Color(0xFF43A047),
+          score: meta.score,
+          suffix: meta.suffix,
+          label: 'METACRITIC',
+        ),
+    ];
+
+    if (scores.isEmpty) return const SizedBox.shrink();
+
     return Row(
-      children: [
-        if (imdb != null) _ScoreItem(icon: Icons.star, iconColor: const Color(0xFFFFC107), score: imdb.score, suffix: imdb.suffix, label: 'IMDB'),
-        if (imdb != null && (rt != null || meta != null)) const SizedBox(width: 20),
-        if (rt != null) _ScoreItem(icon: Icons.lens, iconColor: const Color(0xFFE53935), score: rt.score, suffix: rt.suffix, label: 'ROTTEN TOMATOES'),
-        if (rt != null && meta != null) const SizedBox(width: 20),
-        if (meta != null) _ScoreItem(icon: Icons.movie_filter, iconColor: const Color(0xFF43A047), score: meta.score, suffix: meta.suffix, label: 'METACRITIC'),
-      ],
+      children: List.generate(scores.length * 2 - 1, (index) {
+        if (index.isOdd) {
+          return Container(
+            width: 1,
+            height: 50,
+            color: Colors.grey.shade300,
+            margin: const EdgeInsets.symmetric(horizontal: 8),
+          );
+        } else {
+          final scoreIndex = index ~/ 2;
+          final data = scores[scoreIndex];
+          return Expanded(
+            child: _ScoreItem(
+              icon: data.icon,
+              iconColor: data.iconColor,
+              score: data.score,
+              suffix: data.suffix,
+              label: data.label,
+            ),
+          );
+        }
+      }),
     );
   }
 
@@ -350,7 +400,8 @@ class _ScoresRow extends StatelessWidget {
       return (score: m.imdbRating, suffix: '/10');
     }
     for (final r in m.ratings) {
-      if (r.source.toLowerCase().contains('internet') || r.source == 'Internet Movie Database') {
+      if (r.source.toLowerCase().contains('internet') ||
+          r.source == 'Internet Movie Database') {
         final v = r.value.replaceFirst('/10', '').trim();
         return (score: v, suffix: '/10');
       }
@@ -381,6 +432,22 @@ class _ScoresRow extends StatelessWidget {
   }
 }
 
+class _ScoreData {
+  const _ScoreData({
+    required this.icon,
+    required this.iconColor,
+    required this.score,
+    required this.suffix,
+    required this.label,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final String score;
+  final String suffix;
+  final String label;
+}
+
 class _ScoreItem extends StatelessWidget {
   const _ScoreItem({
     required this.icon,
@@ -398,41 +465,42 @@ class _ScoreItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 20, color: iconColor),
-              const SizedBox(width: 6),
-              Text(
-                score,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.grey.shade600,
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 2,
+        ),
+        const SizedBox(height: 6),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 18, color: iconColor),
+            const SizedBox(width: 4),
+            Text(
+              score,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+                fontSize: 18,
               ),
-              if (suffix.isNotEmpty)
-                Text(
-                  suffix,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey,
-                      ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.grey,
-                  fontSize: 11,
-                ),
-          ),
-        ],
-      ),
+            ),
+            if (suffix.isNotEmpty)
+              Text(
+                suffix,
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+              ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -447,10 +515,10 @@ class _SectionLabel extends StatelessWidget {
     return Text(
       title,
       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: Colors.grey,
-            letterSpacing: 0.8,
-          ),
+        fontWeight: FontWeight.w600,
+        color: Colors.grey.shade500,
+        letterSpacing: 0.8,
+      ),
     );
   }
 }
@@ -463,51 +531,68 @@ class _CastCrewList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = <_CastCrewItem>[];
+
     if (movie.director != 'N/A' && movie.director.isNotEmpty) {
       for (final name in movie.director.split(',').map((e) => e.trim())) {
         if (name.isNotEmpty) {
-          items.add(_CastCrewItem(name: name, role: 'Director', isDirector: true));
+          items.add(
+            _CastCrewItem(name: name, role: 'Director', isDirector: true),
+          );
         }
       }
     }
+
     if (movie.actors != 'N/A' && movie.actors.isNotEmpty) {
-      for (final name in movie.actors.split(',').map((e) => e.trim())) {
+      final actors = movie.actors.split(',').map((e) => e.trim()).toList();
+      for (int i = 0; i < actors.length && i < 4; i++) {
+        final name = actors[i];
         if (name.isNotEmpty) {
-          items.add(_CastCrewItem(name: name, role: 'Actor', isDirector: false));
+          items.add(
+            _CastCrewItem(
+              name: name,
+              role: _getActorRole(i, movie),
+              isDirector: false,
+            ),
+          );
         }
       }
     }
+
     if (items.isEmpty) {
       return Text(
         'No cast or crew information available.',
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
       );
     }
+
     return Column(
       children: items
           .map(
             (e) => Padding(
-              padding: const EdgeInsets.only(bottom: 14),
+              padding: const EdgeInsets.only(bottom: 16),
               child: Row(
                 children: [
                   _AvatarCircle(isDirector: e.isDirector),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           e.name,
-                          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.w600,
                                 color: Colors.black87,
                               ),
                         ),
+                        const SizedBox(height: 2),
                         Text(
                           e.role,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Colors.grey,
-                              ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(color: Colors.grey.shade600),
                         ),
                       ],
                     ),
@@ -519,10 +604,19 @@ class _CastCrewList extends StatelessWidget {
           .toList(),
     );
   }
+
+  String _getActorRole(int index, MovieDetail movie) {
+
+    return 'Actor';
+  }
 }
 
 class _CastCrewItem {
-  _CastCrewItem({required this.name, required this.role, required this.isDirector});
+  _CastCrewItem({
+    required this.name,
+    required this.role,
+    required this.isDirector,
+  });
   final String name;
   final String role;
   final bool isDirector;
@@ -535,21 +629,22 @@ class _AvatarCircle extends StatelessWidget {
 
   static const _directorBlue = Color(0xFFE3F2FD);
   static const _directorIconBlue = Color(0xFF1565C0);
-  static const _actorBg = Color(0xFFEFEBE9);
+  static const _actorBg = Color(0xFFFFE0B2);
+  static const _actorIcon = Color(0xFFE65100);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 44,
-      height: 44,
+      width: 48,
+      height: 48,
       decoration: BoxDecoration(
         color: isDirector ? _directorBlue : _actorBg,
         shape: BoxShape.circle,
       ),
       child: Icon(
-        isDirector ? Icons.movie_creation_outlined : Icons.person_outline,
-        size: 22,
-        color: isDirector ? _directorIconBlue : Colors.brown.shade400,
+        isDirector ? Icons.videocam : Icons.person,
+        size: 24,
+        color: isDirector ? _directorIconBlue : _actorIcon,
       ),
     );
   }

@@ -60,9 +60,9 @@ class MovieGridCard extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(10, 8, 10, 4),
               child: Text(
                 movie.title,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
               ),
@@ -71,8 +71,9 @@ class MovieGridCard extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
               child: Text(
                 movie.year,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey,
+                style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: 12,
                     ),
               ),
             ),
