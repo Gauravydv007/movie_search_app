@@ -1,8 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-
 import 'network_info.dart';
 
-/// Uses connectivity_plus to determine if the device has network access.
 class NetworkInfoImpl implements NetworkInfo {
   NetworkInfoImpl(this._connectivity);
 
