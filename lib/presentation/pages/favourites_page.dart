@@ -23,7 +23,7 @@ class _FavouritesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favourites'),
+        title: Text('Favourites'),
       ),
       body: BlocBuilder<FavouritesBloc, FavouritesState>(
         builder: (context, state) {
@@ -63,7 +63,7 @@ class _FavouritesView extends StatelessWidget {
               ),
             );
           }
-          return const Center(child: Text('Pull to load favourites'));
+          return Center(child: Text('Pull to load favourites'));
         },
       ),
     );

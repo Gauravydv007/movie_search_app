@@ -73,12 +73,10 @@ class _NavItem extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  static const _navBlue = Color(0xFF2196F3);
-  static const _navGrey = Color(0xFF9E9E9E);
 
   @override
   Widget build(BuildContext context) {
-    final color = isSelected ? _navBlue : _navGrey;
+    final color = isSelected ? Color(0xFF2196F3) : Color(0xFF9E9E9E);
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
@@ -92,7 +90,7 @@ class _NavItem extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                 color: color,
               ),
