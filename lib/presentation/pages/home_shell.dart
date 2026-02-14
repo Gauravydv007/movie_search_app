@@ -46,7 +46,7 @@ class _HomeShellState extends State<HomeShell> {
                   onTap: () => setState(() => _index = 0),
                 ),
                 _NavItem(
-                  icon: Icons.favorite_border,
+                  icon: Icons.favorite,
                   label: 'Favorites',
                   isSelected: _index == 1,
                   onTap: () => setState(() => _index = 1),
