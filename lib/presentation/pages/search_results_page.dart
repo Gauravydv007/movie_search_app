@@ -72,6 +72,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: TextField(
+              
               controller: _controller,
               onSubmitted: _onSubmit,
               decoration: InputDecoration(

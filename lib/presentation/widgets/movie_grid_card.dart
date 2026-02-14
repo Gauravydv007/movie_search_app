@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movie_search_app_001/domain/entities/movie.dart';
 import 'package:movie_search_app_001/presentation/pages/movie_detail_page.dart';
 
-/// Grid card for search results: poster (or placeholder), heart, title, year.
 class MovieGridCard extends StatelessWidget {
   const MovieGridCard({
     super.key,
@@ -57,7 +56,7 @@ class MovieGridCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 8, 10, 4),
+              padding:  EdgeInsets.fromLTRB(10, 8, 10, 4),
               child: Text(
                 movie.title,
                 maxLines: 1,
@@ -68,7 +67,7 @@ class MovieGridCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
               child: Text(
                 movie.year,
                 style: TextStyle(
