@@ -19,12 +19,12 @@ class MovieSearchApp extends StatelessWidget {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Movie Search',
+        title: 'Movie Search Application' ,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
         ),
-        home: const HomeShell(),
+        home: HomeShell(),
       ),
     );
   }
