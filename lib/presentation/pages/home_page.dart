@@ -54,9 +54,10 @@ class _HomePageState extends State<HomePage> {
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
+                    fontSize: 32,
                   ),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
                 TextField(
                   controller: _controller,
                   focusNode: _focusNode,
@@ -66,13 +67,14 @@ class _HomePageState extends State<HomePage> {
                     hintStyle: TextStyle(color: Colors.grey.shade500),
                     prefixIcon: Icon(
                       Icons.search,
-                      color: theme.colorScheme.primary,
+                      color: Colors.blue,
                       size: 24,
+                      
                     ),
                     filled: true,
                     fillColor: Colors.grey.shade100,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(32),
                       borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(

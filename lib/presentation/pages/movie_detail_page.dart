@@ -175,7 +175,7 @@ class _DetailContent extends StatelessWidget {
                     _SectionLabel('PLOT'),
                     const SizedBox(height: 6),
                     Text(
-                      movie.plot != 'N/A' ? movie.plot : 'No plot available.',
+                      movie.plot != 'N/A' ? movie.plot : 'No plot is available.',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Colors.black87,
                             height: 1.45,
