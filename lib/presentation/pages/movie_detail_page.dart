@@ -101,10 +101,9 @@ class _DetailContent extends StatelessWidget {
 
     return Stack(
       children: [
-        // Full background image
+        /////--- set image  in background ---/////
         _BackgroundPoster(poster: movie.poster),
 
-        // Navigation buttons
         Positioned(
           top: topPadding + 8,
           left: 16,
