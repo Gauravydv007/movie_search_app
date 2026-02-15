@@ -122,8 +122,8 @@ class _SearchViewState extends State<_SearchView> {
 
   Widget _buildGrid(List<Movie> movies) {
     return GridView.builder(
-      padding: const EdgeInsets.all(12),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      padding: EdgeInsets.all(12),
+      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 0.6,
         crossAxisSpacing: 12,

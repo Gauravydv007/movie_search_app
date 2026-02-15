@@ -70,12 +70,13 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             child: TextField(
               
               controller: _controller,
               onSubmitted: _onSubmit,
               decoration: InputDecoration(
+                
                 hintText: 'Search for your favorite movies',
                 hintStyle: TextStyle(color: Colors.grey.shade500),
                 prefixIcon: Icon(

@@ -22,19 +22,24 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void _submitSearch() {
-    final query = _controller.text.trim();
-    if (query.isEmpty) return;
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (_) => BlocProvider(
-          create: (_) =>
-              sl<SearchMoviesBloc>()..add(SearchMoviesQueryChanged(query)),
-          child: SearchResultsPage(initialQuery: query),
-        ),
+  Future<void> _submitSearch() async {
+  final query = _controller.text.trim();
+  if (query.isEmpty) return;
+
+  await Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (_) => BlocProvider(
+        create: (_) =>
+            sl<SearchMoviesBloc>()..add(SearchMoviesQueryChanged(query)),
+        child: SearchResultsPage(initialQuery: query),
       ),
-    );
-  }
+    ),
+  );
+
+  _controller.clear();
+  _focusNode.unfocus();
+}
+
 
   @override
   Widget build(BuildContext context) {

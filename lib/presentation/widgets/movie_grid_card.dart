@@ -45,10 +45,19 @@ class MovieGridCard extends StatelessWidget {
                       onTap: () {
                         onFavouriteTap();
                       },
-                      child: Icon(
-                        isFavourite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavourite ? Colors.red : Colors.grey,
-                        size: 24,
+                      child: Container(
+                        height: 40,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          // shape: BoxShape.values,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Icon(
+                          isFavourite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavourite ? Colors.white : Colors.grey,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ),
