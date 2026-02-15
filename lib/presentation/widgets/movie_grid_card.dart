@@ -50,7 +50,6 @@ class MovieGridCard extends StatelessWidget {
                         width: 30,
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.5),
-                          // shape: BoxShape.values,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Icon(

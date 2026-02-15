@@ -25,13 +25,11 @@ import 'package:movie_search_app_001/presentation/bloc/search/search_movies_bloc
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // Bloc
   sl.registerFactory(() => SearchMoviesBloc(sl()));
   sl.registerFactory(() => MovieDetailBloc(sl(), sl()));
   sl.registerFactory(() => FavouritesBloc(sl(), sl(), sl()));
   sl.registerFactory(() => ConnectivityBloc(sl()));
 
-  // Use cases
   sl.registerLazySingleton(() => SearchMovies(sl()));
   sl.registerLazySingleton(() => GetMovieById(sl()));
   sl.registerLazySingleton(() => GetFavourites(sl()));
@@ -39,7 +37,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => RemoveFavourite(sl()));
   sl.registerLazySingleton(() => IsFavourite(sl()));
 
-  // Repository
+
   sl.registerLazySingleton<MovieRepository>(
     () => MovieRepositoryImpl(
       remote: sl(),
@@ -48,7 +46,7 @@ Future<void> init() async {
     ),
   );
 
-  // Data sources
+
   sl.registerLazySingleton<MovieRemoteDataSource>(
     () => MovieRemoteDataSourceImpl(sl()),
   );
@@ -56,12 +54,11 @@ Future<void> init() async {
     () => MovieLocalDataSourceImpl(sl()),
   );
 
-  // Core
+
   sl.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(sl()),
   );
 
-  // External
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => Connectivity());
 

@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Lightweight movie entity from search results (list item).
 class Movie extends Equatable {
   const Movie({
     required this.imdbID,
