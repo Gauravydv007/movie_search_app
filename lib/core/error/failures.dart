@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Base failure for the app. All domain/data failures should extend this.
 abstract class Failure extends Equatable {
   const Failure([this.message]);
 

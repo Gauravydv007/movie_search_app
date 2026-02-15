@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Full movie detail entity (single movie by id).
 class MovieDetail extends Equatable {
   const MovieDetail({
     required this.imdbID,

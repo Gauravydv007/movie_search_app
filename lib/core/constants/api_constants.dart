@@ -1,5 +1,3 @@
-/// OMDB API base URL and key.
-/// Replace with your own key from https://www.omdbapi.com/apikey.aspx
 class ApiConstants {
   ApiConstants._();
 

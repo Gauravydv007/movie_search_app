@@ -32,6 +32,7 @@ class MovieRepositoryImpl implements MovieRepository {
       return list.map((m) => m.toEntity()).toList();
     } on ServerException catch (e) {
       rethrow;
+      
     }
   }
 

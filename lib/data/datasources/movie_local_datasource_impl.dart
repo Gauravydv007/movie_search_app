@@ -55,6 +55,6 @@ class MovieLocalDataSourceImpl implements MovieLocalDataSource {
   Future<void> _save(List<MovieModel> list) async {
     final encoded = jsonEncode(list.map((e) => e.toJson()).toList());
     final ok = await _prefs.setString(_favouritesKey, encoded);
-    if (!ok) throw CacheException('Failed to save favourites');
+    if (!ok) throw CacheException('Failed to save favourite movies');
   }
 }
