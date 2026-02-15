@@ -16,6 +16,7 @@ class FavouritesPage extends StatelessWidget {
   }
 }
 
+
 class _FavouritesView extends StatelessWidget {
   const _FavouritesView();
 
@@ -36,7 +37,7 @@ class _FavouritesView extends StatelessWidget {
           if (state is FavouritesLoaded) {
             if (state.movies.isEmpty) {
               return const Center(
-                child: Text('No favourites yet. Add some from search!'),
+                child: Text('No favourites yet. Add some from search!!'),
               );
             }
             return RefreshIndicator(
